@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>♾️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> <!-- 8-bit font -->
     <style>
         body {
             margin: 0;
             overflow: hidden; /* Hide overflow on body */
+            position: relative;
+            font-family: 'Times New Roman', Times, serif; /* Set font for welcome text */
         }
         .gif-container {
             height: 200vh; /* Allows for endless scrolling */
@@ -26,10 +29,70 @@
             opacity: 0.9; /* Slight transparency for blending */
             will-change: opacity; /* Optimize for opacity changes */
         }
+        .welcome-text {
+            position: fixed; /* Fixed position */
+            top: 0; /* Position at the top */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 4em; /* Larger size */
+            color: rgba(255, 255, 255, 0.8); /* Low opacity white */
+            text-shadow: 2px 2px 0px black; /* Thick black outline */
+            cursor: pointer; /* Change cursor to pointer */
+            z-index: 10; /* Ensure it is above other elements */
+            width: 100%; /* Take full width */
+            text-align: center; /* Center text */
+        }
+        .buttons {
+            display: none; /* Initially hidden */
+            flex-direction: row; /* Horizontal layout */
+            justify-content: center; /* Center buttons */
+            position: absolute;
+            top: 20%; /* Position below welcome text */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10; /* Ensure it is above other elements */
+        }
+        .button {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: black;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-family: 'Press Start 2P', cursive; /* 8-bit font */
+        }
+        .button:hover {
+            background-color: rgba(200, 200, 200, 0.8);
+        }
+        .flashing-sign {
+            position: fixed; /* Fixed position */
+            bottom: 20px; /* Position at the bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5em;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 2px 2px 0px black;
+            animation: flash 1s infinite alternate; /* Flashing effect */
+            z-index: 10; /* Ensure it is above other elements */
+        }
+        @keyframes flash {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
     <div class="gif-container" id="gifContainer"></div>
+    <div class="welcome-text" id="welcomeText">Welcome to Infinity</div>
+    <div class="buttons" id="buttons">
+        <button class="button" onclick="window.open('https://t.me/yourtelegram', '_blank')">Telegram</button>
+        <button class="button" onclick="window.open('https://twitter.com/yourtwitter', '_blank')">Twitter</button>
+        <button class="button" onclick="alert('Contract Address: 0xYourContractAddress')">Contract Address</button>
+    </div>
+    <div class="flashing-sign" id="flashingSign">Scroll down for more info</div>
     <script>
         const gifs = [
             "https://media.giphy.com/media/3oKIPfgL8NAB7gFSta/giphy.gif",
@@ -45,6 +108,9 @@
         ];
 
         const gifContainer = document.getElementById('gifContainer');
+        const welcomeText = document.getElementById('welcomeText');
+        const buttons = document.getElementById('buttons');
+        const flashingSign = document.getElementById('flashingSign');
 
         function createGif() {
             const img = document.createElement('img');
@@ -74,6 +140,18 @@
         }
 
         addMoreGifs(); // Start adding GIFs
+
+        // Click event for welcome text
+        welcomeText.addEventListener('click', () => {
+            buttons.style.display = 'flex'; // Show buttons
+            flashingSign.style.display = 'block'; // Show flashing sign
+
+            // Hide buttons and flashing sign after 30 seconds
+            setTimeout(() => {
+                buttons.style.display = 'none';
+                flashingSign.style.display = 'none';
+            }, 30000);
+        });
     </script>
 </body>
 </html>
