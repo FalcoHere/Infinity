@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>♾️</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Hide overflow on body */
+        }
+        .gif-container {
+            height: 200vh; /* Allows for endless scrolling */
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+            grid-auto-rows: 300px; /* Set height for each row */
+            gap: 0; /* No gap between GIFs */
+            position: relative;
+            overflow-y: auto; /* Enable vertical scrolling */
+            will-change: transform; /* Optimize for scrolling */
+        }
+        .gif {
+            width: 100%; /* Full width of the grid cell */
+            height: 100%; /* Full height of the grid cell */
+            object-fit: cover; /* Cover the entire cell */
+            opacity: 0.9; /* Slight transparency for blending */
+            will-change: opacity; /* Optimize for opacity changes */
+        }
+    </style>
+</head>
+<body>
+    <div class="gif-container" id="gifContainer"></div>
+    <script>
+        const gifs = [
+            "https://media.giphy.com/media/3oKIPfgL8NAB7gFSta/giphy.gif",
+            "https://media.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.gif",
+            "https://media.giphy.com/media/l4FGmfnKZRGwtJ4v6/giphy.gif",
+            "https://media.giphy.com/media/1zkMcZpLsOub1sBkqv/giphy.gif",
+            "https://media.giphy.com/media/JxYOG4QI7kCpa/giphy.gif",
+            "https://media.giphy.com/media/AeWntMyxGFXXi/giphy.gif",
+            "https://media.giphy.com/media/I8KtXBQxlfC3tGnRYj/giphy.gif",
+            "https://media.giphy.com/media/coCBXW6FHedNo3XYam/giphy.gif",
+            "https://media.giphy.com/media/pCQSaCRJUl1LEhEaJq/giphy.gif",
+            "https://media.giphy.com/media/5SywxWXfpvDCvG52fz/giphy.gif"
+        ];
+
+        const gifContainer = document.getElementById('gifContainer');
+
+        function createGif() {
+            const img = document.createElement('img');
+            img.className = 'gif';
+            img.src = gifs[Math.floor(Math.random() * gifs.length)];
+            img.alt = 'Random GIF';
+            gifContainer.appendChild(img);
+        }
+
+        // Create initial GIFs to fill the screen
+        const initialGifs = Math.ceil(window.innerHeight / 300) * Math.ceil(window.innerWidth / 300);
+        for (let i = 0; i < initialGifs; i++) {
+            createGif();
+        }
+
+        // Function to continuously add GIFs for endless scrolling
+        function addMoreGifs() {
+            const scrollPosition = gifContainer.scrollTop + gifContainer.clientHeight;
+            const totalHeight = gifContainer.scrollHeight;
+
+            // Add more GIFs when nearing the bottom
+            if (scrollPosition >= totalHeight - 100) {
+                createGif();
+            }
+
+            requestAnimationFrame(addMoreGifs); // Use requestAnimationFrame for smoother performance
+        }
+
+        addMoreGifs(); // Start adding GIFs
+    </script>
+</body>
+</html>
