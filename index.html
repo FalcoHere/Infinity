@@ -82,17 +82,43 @@
             0% { opacity: 0.5; }
             100% { opacity: 1; }
         }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 20;
+        }
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
     <div class="gif-container" id="gifContainer"></div>
     <div class="welcome-text" id="welcomeText">Welcome to Infinity</div>
     <div class="buttons" id="buttons">
-        <button class="button" onclick="window.open('https://t.me/yourtelegram', '_blank')">Telegram</button>
-        <button class="button" onclick="window.open('https://twitter.com/yourtwitter', '_blank')">Twitter</button>
-        <button class="button" onclick="alert('Contract Address: 0xYourContractAddress')">Contract Address</button>
+        <button class="button" onclick="window.open('https://infinity-xi-eight.vercel.app/', '_blank')">Telegram</button>
+        <button class="button" onclick="togglePopup()">Contract Address</button>
     </div>
     <div class="flashing-sign" id="flashingSign">Scroll down for more info</div>
+
+    <!-- Popup for contract address -->
+    <div id="popupOverlay" class="popup-overlay" style="display: none;" onclick="togglePopup()"></div>
+    <div id="popup" class="popup" style="display: none;">
+        <p>Contract Address: <strong>6h9u26FYxvXUA4Dz3JQHL57UTX1ZLZQsWgx9qeXqpump</strong></p>
+        <button onclick="copyAddress()">Copy Address</button>
+        <button onclick="togglePopup()">Close</button>
+    </div>
     <script>
         const gifs = [
             "https://media.giphy.com/media/3oKIPfgL8NAB7gFSta/giphy.gif",
@@ -111,6 +137,8 @@
         const welcomeText = document.getElementById('welcomeText');
         const buttons = document.getElementById('buttons');
         const flashingSign = document.getElementById('flashingSign');
+
+        let popupVisible = false;
 
         function createGif() {
             const img = document.createElement('img');
@@ -152,6 +180,22 @@
                 flashingSign.style.display = 'none';
             }, 30000);
         });
+
+        function togglePopup() {
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('popupOverlay');
+            popupVisible = !popupVisible;
+            popup.style.display = popupVisible ? 'block' : 'none';
+            overlay.style.display = popupVisible ? 'block' : 'none';
+        }
+
+        function copyAddress() {
+            const address = "6h9u26FYxvXUA4Dz3JQHL57UTX1ZLZQsWgx9qeXqpump";
+            navigator.clipboard.writeText(address).then(() => {
+                alert("Contract address copied to clipboard: " + address);
+                togglePopup(); // Close popup after copying
+            });
+        }
     </script>
 </body>
 </html>
